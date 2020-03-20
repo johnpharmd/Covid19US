@@ -1,28 +1,22 @@
-#
-# This is the user-interface definition of a Shiny web application. You can
-# run the application by clicking 'Run App' above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
-
 library(shiny)
 
 # Define UI for application that visualizes Covid19US data on map
 shinyUI(fluidPage(
 
     # Application title
-    titlePanel("Covid19 U.S. Data"),
+    titlePanel("Covid19 U.S. Data, from https://covidtracking.com"),
 
-    # Sidebar with a slider input for number of bins
+    # Sidebar with a dropdown box to select one of five metrics
     sidebarPanel(
-            textInput("text1", "Enter a State:")
+            selectInput("metric", "Choose a metric:",
+                        list("positive", "negative", "pending",
+                             "death", "total"))
         ),
 
-    # Show a plot of the generated distribution
+    # Show the selected metric from side panel with U.S. map
+    # below the selection
     mainPanel(
-            # h3("state"),
+            h3("Fully updated daily at 1700hrs EDT"),
             htmlOutput("gvis")
         )
     )
