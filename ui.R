@@ -18,6 +18,8 @@ shinyUI(fluidPage(
     mainPanel(
             h3("Fully updated daily at 1700hrs EDT"),
             htmlOutput("gvis")
-        )
-    )
-)
+        ),
+    hr(),
+    print("John Humphreys [@johnpharmd] 2020")
+    
+))    
