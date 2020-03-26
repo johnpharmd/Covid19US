@@ -9,4 +9,5 @@ reasons for this: 1) I'm new to R and have been learning it in the context of Co
 
 Here is the URL for my deployed Shiny app: https://johnpharmd.shinyapps.io/covid19us/  
 The data for this work come from [The COVID Tracking Project](https://covidtracking.com/), a rigorous project with an excellent
-API. Check 'em out on Twitter: [@COVID19Tracking](https://twitter.com/COVID19Tracking).
+API, and the [Tableau Johns Hopkins CSSE case data](https://data.world/covid-19-data-resource-hub/covid-19-case-counts).
+Check 'em out on Twitter: [@COVID19Tracking](https://twitter.com/COVID19Tracking).
