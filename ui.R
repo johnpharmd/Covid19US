@@ -4,7 +4,7 @@ library(shiny)
 shinyUI(fluidPage(
 
     # Application title
-    titlePanel("Covid19 U.S. Data, from https://covidtracking.com"),
+    titlePanel("Covid19 U.S. Data"),
 
     # Sidebar with a dropdown box to select one of five metrics
     sidebarPanel(
@@ -16,8 +16,15 @@ shinyUI(fluidPage(
     # Show the selected metric from side panel with U.S. map
     # below the selection
     mainPanel(
-            h3("Fully updated daily at 1700hrs EDT"),
-            htmlOutput("gvis")
+            h4("Map of The COVID Tracking Project data at
+               https://covidtracking.com"),
+            htmlOutput("gvis"),
+            hr(),
+            h4("Plot of selected metric from https://data.world/covid-19-data-resource-hub/covid-19-case-counts
+               via Johns Hopkins/Tableau"),
+            # selectInput("state", "Choose a State/Territory:",
+            #             list())),
+            plotOutput("plot")
         ),
     hr(),
     print("John Humphreys [@johnpharmd] 2020")
