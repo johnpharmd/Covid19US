@@ -39,9 +39,13 @@ shinyServer(function(input, output) {
     })
     
     output$plot <- renderPlot({
-        ggplot(data = tableau_jh_df, aes("province_state",
+        ggplot(data = tableau_jh_df, aes("date",
                                          "number_of_cases",
                                          group = 1)) +
-               geom_line() + geom_point()
+               geom_line() + geom_point() +
+               theme(axis.text.x = element_text(size = 16)) +       
+               theme(axis.text.y = element_text(size = 16,
+                                                angle = 90)
+               )
     })
 })
