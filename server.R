@@ -4,10 +4,11 @@ library(jsonlite)
 library(dwapi)
 library(googleVis)
 library(ggplot2)
+library(dplyr)
 
 # Obtain data
 # awesome work by Hammerbacher et al.
-base_url = "https://covidtracking.com/api/states"
+base_url <- "https://covidtracking.com/api/states"
 json_source <- fromJSON(base_url)
 covidtracking_df <- data.frame(json_source)
 
@@ -25,9 +26,9 @@ sql_query <- "SELECT date, province_state, SUM(cases) AS number_of_cases
 tableau_jh_df <- data.frame(dwapi::sql(owner_id, dataset_id,
                                        sql_query))
 
-# Define server logic required to plot googlevis map
+# Define server logic required to plot googlevis map and line plot
 shinyServer(function(input, output) {
-    
+
     output$gvis <- renderGvis({
         gvisGeoChart(covidtracking_df,
                      locationvar = "state", colorvar = input$metric,
@@ -37,15 +38,17 @@ shinyServer(function(input, output) {
                                     colorAxis = "{colors: ['#FFFFFF', '#0000FF']}"
                      ))
     })
-    
+
     output$plot <- renderPlot({
-        ggplot(data = tableau_jh_df, aes("date",
-                                         "number_of_cases",
-                                         group = 1)) +
-               geom_line() + geom_point() +
-               theme(axis.text.x = element_text(size = 16)) +       
-               theme(axis.text.y = element_text(size = 16,
-                                                angle = 90)
-               )
-    })
+        # min_date <- as.Date("2020-01-20")
+        # max_date <- NA
+        ggplot(filter(tableau_jh_df, province_state == input$state_terr),
+                      aes(date, number_of_cases, group = 1)) +
+        geom_line() +
+        labs(x = "Date", y = "Number of Cases") +
+        theme(axis.text.x = element_text(angle = 45),
+              axis.text.y = element_text(angle = 90),
+              plot.margin = unit(c(1, 1, 1, 1), "cm")) + 
+        scale_x_date(date_breaks = "weeks")
+       })
 })
