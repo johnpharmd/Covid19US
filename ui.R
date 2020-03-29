@@ -1,4 +1,5 @@
 library(shiny)
+library(shinyWidgets)
 
 # Define UI for application that visualizes Covid19US data on map
 shinyUI(fluidPage(
@@ -11,8 +12,8 @@ shinyUI(fluidPage(
             selectInput("metric", "Choose a metric from COVID Tracking Project:",
                         list("positive", "negative", "pending",
                              "death", "total")),
-            hr(),
-            hr(),
+            br(),
+            br(),
             h4("See Johns Hopkins data below [via Tableau/datadotworld]")
         ),
     
@@ -27,7 +28,7 @@ shinyUI(fluidPage(
             # Dropdown box to select US state/territory
             fluidRow(
                 column(3,
-                       selectInput("state_terr", "Choose a State/Territory:",
+                       pickerInput("states_terrs", "Choose up to 4 States/Territories:", choices = 
                                    list("Alabama", "Alaska", "Arizona", "Arkansas",             
                                         "California", "Colorado",            
                                         "Connecticut", "Delaware",            
@@ -53,10 +54,10 @@ shinyUI(fluidPage(
                                         "Utah", "Vermont",             
                                         "Virgin Islands", "Virginia",            
                                         "Washington", "West Virginia",       
-                                        "Wisconsin", "Wyoming")),
-                )),
+                                        "Wisconsin", "Wyoming"),
+                                   options = list("max-options" = 4),
+                                   multiple = TRUE))),
             plotOutput("plot"),
-    
-    print("John Humphreys [@johnpharmd] 2020")
+            print("John Humphreys [@johnpharmd] 2020")
     
 )))
