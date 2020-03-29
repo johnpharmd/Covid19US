@@ -1,10 +1,12 @@
-name: covid19us
-title:
+name: Covid19US
+title: Covid19US
 username:
 account: johnpharmd
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1969065
-bundleId: 2906261
+bundleId: 2940485
 url: https://johnpharmd.shinyapps.io/covid19us/
-when: 1584820269.54547
+when: 1585507939.11481
+asMultiple: FALSE
+asStatic: FALSE
