@@ -48,10 +48,12 @@ dataset_id <- "covid-19-case-counts"
 covid19_dataset <- dwapi::get_dataset(
   owner_id = owner_id,
   dataset_id = dataset_id)
-sql_query <- "SELECT date, province_state, SUM(cases) AS number_of_cases
-  FROM covid_19_cases WHERE country_region = 'US'
-  GROUP BY date, province_state
-  ORDER BY date, province_state"
+sql_query <- "SELECT date, province_state AS State_Terr,
+  SUM(cases) AS number_of_deaths
+  FROM covid_19_cases
+  WHERE country_region = 'US' and case_type = 'Deaths'
+  GROUP BY date, State_Terr
+  ORDER BY date, State_Terr"
 tableau_jh_df <- data.frame(dwapi::sql(owner_id, dataset_id,
                                        sql_query))
 
@@ -65,29 +67,29 @@ shinyServer(function(input, output) {
                      options = list(region = "US", displayMode = "regions",
                                     resolution = "provinces",
                                     width = 500, height = 400,
-                                    colorAxis = "{colors: ['#FFFFFF', '#0000FF']}"
+                                    colorAxis = "{colors: ['#FFFFFF', '#000000']}"
                      ))
     })
 
     output$selections <- renderUI({
-        pickerInput("states_terrs", "Select up to 4 States/Territories:",
-                    states_terrs, list("max-options" = 4), multiple = TRUE)
+        pickerInput("states_terrs", "Select 1 or More States/Territories:",
+                    states_terrs, multiple = TRUE) #, options = list("max-options" = 4), 
     })
 
-    upto4_filter <- reactive({
-        tableau_jh_df %>% filter(province_state %in% input$states_terrs)
+    input_filter <- reactive({
+        tableau_jh_df %>% filter(State_Terr %in% input$states_terrs)
 
     })
 
     output$plot <- renderPlot({
-        upto4_filter = upto4_filter()
-        ggplot(upto4_filter, aes(date, number_of_cases, group = province_state,
-                                 col = province_state)) +
+        input_filter = input_filter()
+        ggplot(input_filter, aes(date, number_of_deaths, group = State_Terr,
+                                 col = State_Terr)) +
         geom_line() +
-        labs(x = "Date", y = "Number of Cases") +
+        labs(x = "Date", y = "Number of Deaths") +
         theme(axis.text.x = element_text(angle = 45),
               axis.text.y = element_text(angle = 90),
               plot.margin = unit(c(1.5, 1, 1, 1.5), "cm")) +
-        scale_x_date(date_breaks = "weeks")
+        scale_x_date(date_breaks = "2 weeks")
        })
 })
