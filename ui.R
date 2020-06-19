@@ -9,11 +9,11 @@ shinyUI(fluidPage(
     # Sidebar with a dropdown box to select one of five metrics
     sidebarPanel(
             selectInput("metric", "Choose a metric from COVID Tracking Project:",
-                        list("positive", "negative", "pending",
-                             "death", "total")),
+                        list("hospitalizedCurrently", "death", "positive",
+                             "negative", "recovered")),
             br(),
             br(),
-            h4("See Johns Hopkins data plotter below [via Tableau/datadotworld]")
+            h4("See below to plot curves by state/territory")
         ),
 
     # U.S. map at top; multiple-selection dropdown and line plot at bottom
@@ -22,13 +22,14 @@ shinyUI(fluidPage(
                https://covidtracking.com"),
             htmlOutput("gvis"),
             hr(),
-            h4("US state/territory total cases by week - https://data.world/covid-19-data-resource-hub/covid-19-case-counts"),
+            h4("US state/territory total deaths due to COVID19"),
+            # h4("US state/territory total deaths - https://data.world/covid-19-data-resource-hub/covid-19-case-counts"),
             # Dropdown box to select US state/territory
             fluidRow(
                 column(3, uiOutput("selections")),
             plotOutput("plot"),
             br(),
             br(),
-            print("John Humphreys [@johnpharmd] 2020", justify = "left")
+            h6("John Humphreys [@johnpharmd] 2020", justify = "left")
 
 ))))
